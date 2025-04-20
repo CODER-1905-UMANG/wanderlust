@@ -1,0 +1,442 @@
+<% layout("layouts/boilerplate") %>
+<style>
+    #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.7rem;
+     /* ensures padding doesn’t add to height/width */
+     border:solid rgb(219, 216, 216);
+     border-width: 1px;
+     height: 5rem;
+     width:100vw;
+     /* margin-top: -24.5px; */
+     margin-left: -113px;
+     padding-top: 0.5rem;
+     padding-bottom: 0.5rem;
+     /*fixing ur filter */
+     position:fixed;
+     top: 4rem;
+     background-color: white;
+     z-index: 1000;
+   }
+
+   .modal {
+        z-index: 1100 !important;
+    }
+    .modal-backdrop {
+        z-index: 1090 !important;
+    }
+
+    .filter {
+        text-align: center;
+        opacity: 0.7;
+        transition: opacity 0.2s ease-in-out;
+        margin-top: 0.25rem;
+    }
+
+    .filter:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .filter p {
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+    }
+
+    .tax-info {
+        display: none;
+        font-size: 0.8rem;
+        color: gray;
+    }
+
+    .tax-toggle {
+        border: 0.1px solid rgb(181, 181, 181);
+        border-radius: 1rem;
+        height: 3rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.25rem;
+    }
+
+    .tax-toggle:hover{
+        border: 1px solid rgb(10, 10, 10);
+    }
+
+    .listing-card {
+        margin-bottom: 2rem;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .listing-card:hover {
+        transform: scale(1.02);
+    }
+
+    .card-body p {
+        margin: 0.5rem 0 0 0;
+    }
+
+    .slider{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap:0.5rem;
+        border: 0.1px solid rgb(181, 181, 181);
+        border-radius: 1rem;
+        height: 3rem;
+        /* padding-top: 0.6rem; */
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+        margin-bottom: 0.25rem;
+        margin-left: 3.4rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .slider:hover {
+      background-color: #f7f7f7;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgb(10, 10, 10);
+    }
+
+
+    /*styling for pop up window */
+
+    .filter-container {
+    border-radius: 1.5rem;
+    height: 620px;
+    width: 520px;
+    background-color: rgb(240, 239, 239);
+    color: rgb(11, 11, 11);
+    display: none;
+    position: fixed; /* Changed from absolute to fixed for screen-center */
+    /* top: 30%;
+    left: 43.5%; */
+    /* transform: translate(-50%, -50%);  */
+    z-index: 1200;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+    /* .filter-container {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: Arial, sans-serif;
+    } */
+
+    .filter-section {
+        display: flex;
+        flex-direction: column;
+        /* text-align: center;
+        align-items: center; */
+        margin-bottom: 15px;
+        justify-content: center;
+        padding: 14px 26px;
+        margin-top: -18px;
+    }
+
+    .type-buttons,.options  {
+        border:0.5px solid grey;
+        padding: 3px 3px;
+        border-radius: 0.75rem;
+        display: flex;
+        gap:0.05rem;
+        margin-top: 22px;
+    }
+
+    .filter-container h5{
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        padding: 14px 26px;
+        margin-top: 5px;
+    }
+
+    .type-buttons button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: none;
+    background: rgb(240, 239, 239);
+    border-radius: 8px;
+    cursor: pointer;
+    width:1500px;
+    }
+
+    .type-buttons button:hover {
+        border: 2px solid black;
+    }
+
+    /* .type-buttons .active {
+    background: black;
+    color: white;
+    border: none;
+    } */
+
+    .price{
+        border:0.2px solid grey;
+        border-radius: 3rem;
+        text-align: center;
+        padding: 10px 28px;
+    }
+
+    .size{
+        text-align: center;
+        font-size: 13px;
+        color: grey;
+        padding: 5px 14px;
+    }
+
+    .price-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0px;
+    }
+
+
+    .apply-button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    }
+    
+    .options{
+        display: flex;
+        /* align-items: normal; */
+        /* justify-content: center; */
+        gap:0.8rem;
+        border: none;
+    }
+    .options button{
+        border: 0.05px solid grey;
+        padding: 12px 16px;
+        border-radius: 15px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+    .options button:hover{
+        border: 2px solid black;
+    }
+
+    .options button i {
+        margin-right: 5px;
+    }
+    .heading{
+        align-items: center;
+        font-size: 18px;
+    }
+    .filter{
+        margin-top: 5px;
+    }
+    .cross{
+        padding-right: 5px;
+        margin-top: 5px;
+        font-size: 20px;
+        float: right;
+        cursor: pointer;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .cross:hover{
+        transform: scale(1.1);
+    }
+
+    .cross:active{
+        transform: scale(0.95);
+        box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+</style>
+
+    <br>
+    <div id="filters" >
+        <div class="filter">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic cities</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-chess-rook"></i>></div>
+            <p>Castles</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Amazing Pools</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-tractor"></i></div>
+            <p>Farms</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-snowflake"></i>></div>
+            <p>Arctic</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-igloo"></i></div>
+            <p>Domes</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-ship"></i>></div>
+            <p>Boats</p>
+        </div>
+       
+        <div class="slider">
+            <div><i class="fa-solid fa-sliders"></i></div>
+            <div>Filters</div>
+            
+        </div>
+        
+
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+            </div>
+        </div>
+    </div>   
+    <!-- <h3>All Listings</h3> -->
+    <!-- <form method="GET" action="/listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <% for(let listing of allListings){ %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <div class="card col listing-card" ">
+                    <img 
+                    src="<%= listing.image.url %>" 
+                    class="card-img-top" 
+                    alt="listing_image" 
+                    style="height: 20rem"
+                    />
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                      <p class="card-text">
+                        <b><%= listing.title %><br></b>
+                        &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+                        <i class="tax-info">&nbsp; &nbsp;+18% GST</i>
+                      </p>
+                    </div>
+                </div>
+            </a>
+            <% } %>
+    </div>
+
+
+
+    <!-- <div class="model"> -->
+        <div class="filter-container">
+
+
+            <div class="filter-section filter">
+                <div>
+                    <b class="heading">Filters</b>
+                    <i class="fa-solid fa-xmark cross"></i>
+                </div>
+            </div>
+
+
+            <div class="filter-section">
+              <label><b>Type of place</b></label>
+              <div class="type-buttons">
+                <button class="active">Any type</button>
+                <button>Room</button>
+                <button>Entire home</button>
+              </div>
+            </div>
+          
+            <div class="filter-section">
+              <label><b>Price range</b></label>
+              <p>Nightly prices before fees and taxes</p>
+              <input type="range" min="860" max="21000" id="minPrice" />
+              <br>
+              <input type="range" min="860" max="21000" id="maxPrice" />
+              <div class="price-labels">
+                <span>
+                    <div class="size">
+                        Minimum
+                    </div>
+                    <div class="price">
+                        $860
+                    </div>
+                </span>
+                <span>
+                    <div class="size">
+                        Maximum
+                    </div>
+                    <div class="price">
+                        $21000+
+                    </div>
+                </span>
+              </div>
+            </div>
+          
+
+            <div class="filter-section booking">
+                <label><b>Booking Options</b></label>
+                <div class="options">
+                    <button><i class="fa-solid fa-bolt"></i>&nbsp;Instant Book</button>
+                    <button><i class="fa-solid fa-key"></i>&nbsp;Self Check-in</button>
+                    <button><i class="fa-solid fa-paw"></i>&nbsp;Allows pets</button>
+                </div>
+            </div>
+
+                <div class="filter-section">
+                    <button class="apply-button">Show 1,000+ places</button>
+                </div>
+          </div>
+    <!-- </div> -->
+
+    <script>
+        let taxSwitch = document.getElementById("switchCheckDefault");
+        taxSwitch.addEventListener("click", () => {
+            let taxInfo = document.getElementsByClassName("tax-info");
+            for (let info of taxInfo) {
+                info.style.display = (info.style.display !== "inline") ? "inline" : "none";
+            }
+        });
+    
+        let filter = document.querySelector(".slider");
+        let modal = document.querySelector(".filter-container"); // ✅ correct variable name
+    
+        filter.addEventListener("click", () => {
+            if (modal.style.display === "none" || modal.style.display === "") {
+                modal.style.display = "block";
+            } else {
+                modal.style.display = "none";
+            }
+            console.log("clicked");
+        });
+
+        document.querySelector('.cross').addEventListener('click', () => {
+        document.querySelector('.filter-container').style.display = 'none';
+        });
+    </script>
+    

@@ -1,0 +1,183 @@
+<style>
+  .navbar{
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  .search-btn{
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+  }
+  .search-btn:hover{
+    background-color: #fe424d;
+    color: #fff;
+  }
+  .search-btn i{
+    display: inline;
+    margin-right: 0.5rem;
+  }
+  .search-input{
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+  }
+
+  .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .user-menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .user-menu-btn:hover {
+      background-color: #f7f7f7;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .hamburger div {
+      width: 16px;
+      height: 2px;
+      background-color: #333;
+    }
+
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      background-color: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-icon::before {
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: white;
+      min-width: 250px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-content a {
+      padding: 10px 20px;
+      display: block;
+      text-decoration: none;
+      color: #333;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f2f2f2;
+    }
+
+    .globe{
+      margin-right: 10px;
+    }
+</style>
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+      <button class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNavAltMarkup"
+       >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/listings">Explore</a>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <form class="d-flex" role="search">
+            <input class="form-control me-2 search-input" type="search" placeholder="Search destinations" >
+            <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+          </form>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="/listings/new">Airbnb your home</a>
+
+          <a class="nav-link globe"><i class="fa-solid fa-globe"></i></a>
+
+          <div class="dropdown">
+            <div class="user-menu-btn" onclick="toggleDropdown()">
+              <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div class="profile-icon">
+                <i class="fa-regular fa-user"></i>
+              </div>
+            </div>
+        
+            <div class="dropdown-content" id="dropdown">
+              <% if(!currUser){ %>
+                <a class="nav-link"  href="/signup"><b>Sign up</b></a>
+                <a class="nav-link" href="/login">Log in</a>
+              <% } %>
+              <% if(currUser){ %>
+                <a class="nav-link" href="/logout"><b>Log out</b></a>
+              <% } %>
+              <hr>
+              <a class="nav-link" href="/">Airbnb your home</a>
+              <a class="nav-link" href="/">Host an expreience</a>
+              <a class="nav-link" href="/">Help support</a>
+            </div>
+          </div>
+        
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('show');
+    }
+
+    // Optional: close dropdown if you click outside
+    window.addEventListener('click', function(e) {
+      const btn = document.querySelector('.user-menu-btn');
+      const menu = document.getElementById('dropdown');
+      if (!btn.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  </script>
